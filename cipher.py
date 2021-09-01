@@ -1,3 +1,32 @@
+fullVigenereTable = [
+  "NSBEAPLMOHFRVKUIQCJXYZDWGT",
+  "VEYKPXHRWODFSUGNAIJTZBMCLQ",
+  "MGAXQFVWSZYRLPNEUDBCHITKOJ",
+  "QUSYFRCMTXGPJBZOWKLNEHAVDI",
+  "EQPVFUXJWBTNOHRAMSIGYCZKDL",
+  "GPEVZDXOFTSQAUJBRCWNKILMYH",
+  "SPNFXMZBCDIVOYLUJTWHRQAGKE",
+  "DVILYGTMUXPQKJAHCBWZONESFR",
+  "SDHCXPNOJITAGRLMWZUBKFYVQE",
+  "UQFJWDVOBLNYCERMXKSPHZAIGT",
+  "YKNHQUSWRCODILJZEAFBMXTGPV",
+  "XWSBRTJFYEKZQHPNLDCGMAUVIO",
+  "MJRGHKTECLBSXVZOQYDNWPIAFU",
+  "RIQWONPJEMGLBUCDKSFYXHAZVT",
+  "JWAGCKLVMBZOXPQEUSNYTHIDFR",
+  "BKJPEWXFHICMLYANVRUTZSQOGD",
+  "CQJMHASEUFWNILKXTYVGBZORPD",
+  "MEPYKASWJVGQHUOIBTCRFZDNXL",
+  "DUKLRQMECHPGFOIZABYVNXSJWT",
+  "AMVYWLSIXKUNDFJORPQTBHGCEZ",
+  "OZJPHBQNUMCIYKLTDERFWAXVSG",
+  "XGUBYKTLWSMHOVINACJZFDPRQE",
+  "CFMYVSEXRGUNWIBOLKHQTPDZJA",
+  "NTMWBEDIOHJSKLXFUQRVGCPYAZ",
+  "ITXOAHFVSDLWZMPQCNBJYRKGUE",
+  "YFUWSAJQHZTBEODRCXMGIVNPKL",
+]
+
 # Convert alfabet ke angka (case insensitive, a=A=0...)
 def alphabetToInt(char):
   if char.isupper():
@@ -22,18 +51,17 @@ def vigenere(inText, key, type="ENC"):
     return "Type not valid"
 
 # Fungsi full vigenere cypher
-# table: table of letters (26 x 26)
-def fullVigenere(inText, table, key, type="ENC"):
+def fullVigenere(inText, key, type="ENC"):
   text = ''.join(filter(str.isalpha, inText))
   if type == "ENC":
     outText = ""
     for i in range(len(text)):
-      outText += table[alphabetToInt(key[i % len(key)])][alphabetToInt(text[i])]
+      outText += fullVigenereTable[alphabetToInt(key[i % len(key)])][alphabetToInt(text[i])]
     return outText
   elif type == "DEC":
     outText = ""
     for i in range(len(text)):
-      outText += chr(table[alphabetToInt(key[i % len(key)])].index(text[i]) + 97)
+      outText += chr(fullVigenereTable[alphabetToInt(key[i % len(key)])].index(text[i]) + 97)
     return outText
   else:
     return "Type not valid"
