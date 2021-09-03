@@ -1,29 +1,49 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Playfair Cipher - {{mode}}</title>
+<title>Affine Cipher - {{mode}}</title>
 {% endblock %}
 
 {% block body %}
 <!-- MAIN -->
 <div class="col p-4">
-    <h1 class="display-4">Playfair Cipher</h1>
+    <h1 class="display-4">Affine Cipher</h1>
     {% if mode=="Encrypt" %}
-    <a class="btn btn-primary" href="/playfair/encrypt" role="button">Encryption</a>
-    <a class="btn btn-secondary" href="/playfair/decrypt" role="button">Decryption</a>
+    <a class="btn btn-primary" href="/affine/encrypt" role="button">Encryption</a>
+    <a class="btn btn-secondary" href="/affine/decrypt" role="button">Decryption</a>
     <div class="card">
         <h5 class="card-header font-weight-light">Requirements</h5>
         <div class="card-body">
-            <form action="/playfair/encrypt" method="POST">
+            <form action="/affine/encrypt" method="POST">
                 <div class="form-group">
-                    <label for="text1">Keyword</label>
-                    <input type="text" class="form-control" name="text1" placeholder="Enter keyword here" value="{{keyword}}">
+                    <label for="select1">M (Coprime of 26)</label>
+                    <select class="form-control" name="select1">
+                        {% for i in coprime %}
+                        {% if i==m %}
+                        <option value="{{i}}" selected>{{i}}</option>
+                        {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="select2">B (Offset)</label>
+                    <select class="form-control" name="select2">
+                        {% for i in offset %}
+                        {% if i==b %}
+                        <option value="{{i}}" selected>{{i}}</option>
+                        {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="text2">Plaintext</label>
                     <input type="text" class="form-control" name="text2" placeholder="Enter plaintext here" value="{{plaintext}}">
                 </div>
-                <button type="submit" class="btn btn-primary">Encipher Plaintext </button>
+                <button type="submit" class="btn btn-primary">Encipher Plaintext</button>
             </form>
         </div>
     </div>
@@ -48,15 +68,35 @@
         </div>
     </div>
     {% else %}
-    <a class="btn btn-secondary" href="/playfair/encrypt" role="button">Encryption</a>
-    <a class="btn btn-primary" href="/playfair/decrypt" role="button">Decryption</a>
+    <a class="btn btn-secondary" href="/affine/encrypt" role="button">Encryption</a>
+    <a class="btn btn-primary" href="/affine/decrypt" role="button">Decryption</a>
     <div class="card">
         <h5 class="card-header font-weight-light">Requirements</h5>
         <div class="card-body">
-            <form action="/playfair/decrypt" method="POST">
+            <form action="/affine/decrypt" method="POST">
                 <div class="form-group">
-                    <label for="text">Keyword</label>
-                    <input type="text" class="form-control" name="text1" placeholder="Enter keyword here" value="{{keyword}}">
+                    <label for="select1">M (Coprime of 26)</label>
+                    <select class="form-control" name="select1">
+                        {% for i in coprime %}
+                        {% if i==m %}
+                        <option value="{{i}}" selected>{{i}}</option>
+                        {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="select2">B (Offset)</label>
+                    <select class="form-control" name="select2">
+                        {% for i in offset %}
+                        {% if i==b %}
+                        <option value="{{i}}" selected>{{i}}</option>
+                        {% else %}
+                        <option value="{{i}}">{{i}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="text2">Ciphertext</label>

@@ -30,14 +30,14 @@ def decryptStringAffine(string, m, b):
     return result
 
 # Main
-text = input("Enter plaintext: ")
-m = int(input("Enter key: "))
-b = int(input("Enter offset: "))
+# text = input("Enter plaintext: ")
+# m = int(input("Enter key: "))
+# b = int(input("Enter offset: "))
 
-if(m not in prime26 or  b>25 or b<0):
-    print("Key is not prime relative to 26 or Offset not in range 0-25")
-else:
-    enkripsi = encryptStringAffine(text, m, b)
-    dekripsi = decryptStringAffine(enkripsi, m, b)
-    print(enkripsi)
-    print(dekripsi)
+# if(m not in prime26 or  b>25 or b<0):
+#     print("Key is not prime relative to 26 or Offset not in range 0-25")
+# else:
+#     enkripsi = encryptStringAffine(text, m, b)
+#     dekripsi = decryptStringAffine(enkripsi, m, b)
+#     print(enkripsi)
+#     print(dekripsi)
