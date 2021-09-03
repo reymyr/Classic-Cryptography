@@ -12,7 +12,7 @@ def formKeyMatricesFromInput(entry, n):
     matrices= np.array(entry).reshape(n, n)
     return matrices
 
-def textToEnrcyptionArray(text, n):
+def textToArray(text, n):
     regex_text = re.sub(r'[^a-zA-Z]', '', text).upper()
     if(len(regex_text)%n != 0):
         regex_text+='X'*(n-(len(regex_text)%n))
@@ -52,12 +52,12 @@ def decryptHill(matrices, arr, n):
     return text
 
 # Main
-n = int(input("Enter the number of linear equation (matrix size): "))
-print("Enter the entries in a single line (separated by space): ")
-entries = list(map(int, input().split()))
-text = input("Enter plaintext: ")
-matrices= formKeyMatricesFromInput(entries, n)
-encryptText = encryptHill(matrices, textToEnrcyptionArray(text, n), n)
-print(encryptText)
-print(decryptHill(matrices, textToEnrcyptionArray(encryptText, n), n))
+# n = int(input("Enter the number of linear equation (matrix size): "))
+# print("Enter the entries in a single line (separated by space): ")
+# entries = list(map(int, input().split()))
+# text = input("Enter plaintext: ")
+# matrices= formKeyMatricesFromInput(entries, n)
+# encryptText = encryptHill(matrices, textToArray(text, n), n)
+# print(encryptText)
+# print(decryptHill(matrices, textToArray(encryptText, n), n))
 

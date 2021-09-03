@@ -2,6 +2,7 @@ from flask import Flask, render_template, url_for, request, redirect
 from playfair_cipher import getKeywordMatrices, textToBigramArray, encipherBigram, decipherBigram, encipherBigramToText, decipherBigramToText
 from affine_cipher import encryptStringAffine, decryptStringAffine
 from vigenere_cipher import vigenere, autoKeyVigenere, fullVigenere, extendedVigenere
+from hill_cipher import textToArray, encryptHill, decryptHill, formKeyMatricesFromInput
 
 app = Flask(__name__)
 
@@ -155,11 +156,37 @@ def affineDecrypt():
         text = request.form['text2']
         m = int(request.form['select1'])
         b = int(request.form['select2'])
-        cipher_text = decryptStringAffine(text, m, b)
+        decipher_text = decryptStringAffine(text, m, b)
         
-        return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime, ciphertext=text, result=cipher_text, m=m, b=b)
+        return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime, ciphertext=text, result=decipher_text, m=m, b=b)
     else:
         return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime)
+
+@app.route("/hill/encrypt", methods=['POST','GET'])
+def hillEncrypt():
+    if request.method == 'POST':
+        n = int(request.form['text1'])
+        array = request.form['text2']
+        entries = list(map(int, array.split()))
+        text = request.form['text3']
+        matrices= formKeyMatricesFromInput(entries, n)
+        cipher_text = encryptHill(matrices, textToArray(text, n), n)
+        return render_template("hill.html", mode="Encrypt", plaintext=text, result=cipher_text, n=n, array=array)
+    else:
+        return render_template("hill.html", mode="Encrypt")
+
+@app.route("/hill/decrypt", methods=['POST','GET'])
+def hillDecrypt():
+    if request.method == 'POST':
+        n = int(request.form['text1'])
+        array = request.form['text2']
+        entries = list(map(int, array.split()))
+        text = request.form['text3']
+        matrices= formKeyMatricesFromInput(entries, n)
+        decipher_text = decryptHill(matrices, textToArray(text, n), n)
+        return render_template("hill.html", mode="Decrypt", ciphertext=text, result=decipher_text, n=n, array=array)
+    else:
+        return render_template("hill.html", mode="Decrypt")
 
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
