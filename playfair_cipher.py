@@ -81,6 +81,9 @@ def decipherBigram(matrix, bigramArray):
             decipher_array.append(res)
     return decipher_array
 
+def encipherBigramToText(encipherArray):
+    return ''.join(encipherArray)
+
 def decipherBigramToText(decipherArray):
     for i in range (len(decipherArray)):
         if(decipherArray[i].count('X') == 1):
@@ -91,15 +94,15 @@ def decipherBigramToText(decipherArray):
 
 
 # Main
-keyword = input("Enter keyword: ")
-text = input("Enter plaintext: ")
+# keyword = input("Enter keyword: ")
+# text = input("Enter plaintext: ")
 
-matrix = getKeywordMatrices(keyword)
-cipher_array = encipherBigram(matrix, textToBigramArray(text))
-decipher_array = decipherBigram(matrix, cipher_array)
-decipher_text = decipherBigramToText(decipher_array)
+# matrix = getKeywordMatrices(keyword)
+# cipher_array = encipherBigram(matrix, textToBigramArray(text))
+# decipher_array = decipherBigram(matrix, cipher_array)
+# decipher_text = decipherBigramToText(decipher_array)
 
 
-print(cipher_array)
-print(decipher_array)
-print(decipher_text)
+# print(cipher_array)
+# print(decipher_array)
+# print(decipher_text)
