@@ -1,3 +1,6 @@
+from os import read
+
+
 fullVigenereTable = [
   "NSBEAPLMOHFRVKUIQCJXYZDWGT",
   "VEYKPXHRWODFSUGNAIJTZBMCLQ",
