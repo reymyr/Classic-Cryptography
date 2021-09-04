@@ -1,8 +1,9 @@
-from flask import Flask, render_template, url_for, request, redirect
+from flask import Flask, render_template, url_for, request, redirect, send_file
 from playfair_cipher import getKeywordMatrices, textToBigramArray, encipherBigram, decipherBigram, encipherBigramToText, decipherBigramToText
 from affine_cipher import encryptStringAffine, decryptStringAffine
 from vigenere_cipher import vigenere, autoKeyVigenere, fullVigenere, extendedVigenere
 from hill_cipher import textToArray, encryptHill, decryptHill, formKeyMatricesFromInput
+import io
 
 app = Flask(__name__)
 
@@ -86,11 +87,13 @@ def autokeyVigenereDecrypt():
 def extendedVigenereEncrypt():
     if request.method == 'POST':
         keyword = request.form['text1']
-        text = request.form['text2']
+        file = request.files['file']
+        file_contents = file.read()
+        filename = file.filename
 
-        cipher_text = extendedVigenere(text, keyword)
-        
-        return render_template("extended_vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text)
+        cipher_file = extendedVigenere(file_contents, keyword)
+
+        return send_file(cipher_file, as_attachment=True, attachment_filename="encrypted-"+filename)
     else:
         return render_template("extended_vigenere.html", mode="Encrypt")
 
@@ -98,11 +101,13 @@ def extendedVigenereEncrypt():
 def extendedVigenereDecrypt():
     if request.method == 'POST':
         keyword = request.form['text1']
-        text = request.form['text2']
+        file = request.files['file']
+        file_contents = file.read()
+        filename = file.filename
 
-        plain_text = extendedVigenere(text, keyword, type="DEC")
-        
-        return render_template("extended_vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text)
+        cipher_file = extendedVigenere(file_contents, keyword, type="DEC")
+
+        return send_file(cipher_file, as_attachment=True, attachment_filename="decrypted-"+filename)
     else:
         return render_template("extended_vigenere.html", mode="Decrypt")
 

@@ -1,5 +1,4 @@
-from os import read
-
+import io
 
 fullVigenereTable = [
   "NSBEAPLMOHFRVKUIQCJXYZDWGT",
@@ -94,11 +93,11 @@ def extendedVigenere(inText, key, type="ENC"):
     outText = bytearray()
     for i in range(len(inText)):
       outText.append(((inText[i]) + ord(key[i % len(key)])) % 256)
-    return outText
+    return io.BytesIO(outText)
   elif type == "DEC":
     outText = bytearray()
     for i in range(len(inText)):
       outText.append(((inText[i]) - ord(key[i % len(key)])) % 256)
-    return outText
+    return io.BytesIO(outText)
   else:
     return "Type not valid"
