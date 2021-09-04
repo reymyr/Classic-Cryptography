@@ -193,6 +193,12 @@ def hillDecrypt():
     else:
         return render_template("hill.html", mode="Decrypt")
 
+@app.route("/saveresult", methods=['POST'])
+def saveResult():
+    result = request.form['result']
+
+    return send_file(io.BytesIO(result.encode()), mimetype="text/plain",as_attachment=True, attachment_filename="result.txt")
+
 if __name__ == "__main__":
     app.config['TEMPLATES_AUTO_RELOAD'] = True
     app.run(debug=True,threaded=True)

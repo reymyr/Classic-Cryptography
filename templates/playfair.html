@@ -30,11 +30,12 @@
     <div class="card">
         <h5 class="card-header font-weight-light">Result</h5>
         <div class="card-body">
-            <form>
-                <div class="form-group">
+            <form action="/saveresult" method="POST">
+                <div class="form-group">    
                     <label for="text">Ciphertext</label>
-                    <input type="text"  readonly class="form-control" name="text3" value="{{result}}">
+                    <input type="text" readonly class="form-control" name="result" value="{{result}}">
                 </div>
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
 
             <div class="form-check form-check-inline">
@@ -69,11 +70,12 @@
     <div class="card">
         <h5 class="card-header font-weight-light">Result</h5>
         <div class="card-body">
-            <form>
-                <div class="form-group">
+            <form action="/saveresult" method="POST">
+                <div class="form-group">    
                     <label for="text">Plaintext</label>
-                    <input type="text"  readonly class="form-control" id="text3" value="{{result}}">
+                    <input type="text" readonly class="form-control" name="result" value="{{result}}">
                 </div>
+                <button type="submit" class="btn btn-primary">Save</button>
             </form>
 
             <div class="form-check form-check-inline">
