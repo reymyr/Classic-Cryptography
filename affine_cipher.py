@@ -24,8 +24,9 @@ def encryptStringAffine(string, m, b):
 
 def decryptStringAffine(string, m, b):
     alphabet = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    regex_text = re.sub(r'[^a-zA-Z]', '', string).upper()
     result = ""
-    for char in string:
+    for char in regex_text:
         result+= alphabet[decryptCharAffine(inversOfXModuloN(m, 26), alphabet.index(char), b, 26)]
     return result
 

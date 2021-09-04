@@ -1,11 +1,17 @@
-from flask import Flask, render_template, url_for, request, redirect, send_file
+from flask import Flask, render_template, request, send_file
 from playfair_cipher import getKeywordMatrices, textToBigramArray, encipherBigram, decipherBigram, encipherBigramToText, decipherBigramToText
 from affine_cipher import encryptStringAffine, decryptStringAffine
 from vigenere_cipher import vigenere, autoKeyVigenere, fullVigenere, extendedVigenere
 from hill_cipher import textToArray, encryptHill, decryptHill, formKeyMatricesFromInput
 import io
+import re
 
 app = Flask(__name__)
+
+def display5LetterGroup(text):
+    result = re.findall('.{1,5}', text)
+    result = ' '.join(result)
+    return result
 
 @app.route("/")
 def index():
@@ -18,10 +24,12 @@ def standardVigenereEncrypt():
         text = request.form['text2']
 
         cipher_text = vigenere(text, keyword)
-        
-        return render_template("vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            cipher_text = display5LetterGroup(cipher_text)
+        return render_template("vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text, display=display)
     else:
-        return render_template("vigenere.html", mode="Encrypt")
+        return render_template("vigenere.html", mode="Encrypt", display="option1")
 
 @app.route("/vigenere/standard/decrypt", methods=['POST','GET'])
 def standardVigenereDecrypt():
@@ -30,10 +38,12 @@ def standardVigenereDecrypt():
         text = request.form['text2']
 
         plain_text = vigenere(text, keyword, type="DEC")
-        
-        return render_template("vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            plain_text = display5LetterGroup(plain_text)
+        return render_template("vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text, display=display)
     else:
-        return render_template("vigenere.html", mode="Decrypt")
+        return render_template("vigenere.html", mode="Decrypt", display="option1")
 
 @app.route("/vigenere/full/encrypt", methods=['POST','GET'])
 def fullVigenereEncrypt():
@@ -42,10 +52,12 @@ def fullVigenereEncrypt():
         text = request.form['text2']
 
         cipher_text = fullVigenere(text, keyword)
-        
-        return render_template("full_vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            cipher_text = display5LetterGroup(cipher_text)
+        return render_template("full_vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text, display=display)
     else:
-        return render_template("full_vigenere.html", mode="Encrypt")
+        return render_template("full_vigenere.html", mode="Encrypt", display="option1")
 
 @app.route("/vigenere/full/decrypt", methods=['POST','GET'])
 def fullVigenereDecrypt():
@@ -54,10 +66,12 @@ def fullVigenereDecrypt():
         text = request.form['text2']
 
         plain_text = fullVigenere(text, keyword, type="DEC")
-        
-        return render_template("full_vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            plain_text = display5LetterGroup(plain_text)
+        return render_template("full_vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text, display=display)
     else:
-        return render_template("full_vigenere.html", mode="Decrypt")
+        return render_template("full_vigenere.html", mode="Decrypt", display="option1")
 
 @app.route("/vigenere/autokey/encrypt", methods=['POST','GET'])
 def autokeyVigenereEncrypt():
@@ -66,10 +80,12 @@ def autokeyVigenereEncrypt():
         text = request.form['text2']
 
         cipher_text = autoKeyVigenere(text, keyword)
-        
-        return render_template("autokey_vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            cipher_text = display5LetterGroup(cipher_text)
+        return render_template("autokey_vigenere.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text, display=display)
     else:
-        return render_template("autokey_vigenere.html", mode="Encrypt")
+        return render_template("autokey_vigenere.html", mode="Encrypt", display="option1")
 
 @app.route("/vigenere/autokey/decrypt", methods=['POST','GET'])
 def autokeyVigenereDecrypt():
@@ -78,10 +94,12 @@ def autokeyVigenereDecrypt():
         text = request.form['text2']
 
         plain_text = autoKeyVigenere(text, keyword, type="DEC")
-        
-        return render_template("autokey_vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            plain_text = display5LetterGroup(plain_text)
+        return render_template("autokey_vigenere.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=plain_text, display=display)
     else:
-        return render_template("autokey_vigenere.html", mode="Decrypt")
+        return render_template("autokey_vigenere.html", mode="Decrypt", display="option1")
 
 @app.route("/vigenere/extended/encrypt", methods=['POST','GET'])
 def extendedVigenereEncrypt():
@@ -120,24 +138,27 @@ def playfairEncrypt():
         matrix = getKeywordMatrices(keyword)
         cipher_array = encipherBigram(matrix, textToBigramArray(text))
         cipher_text = encipherBigramToText(cipher_array)
-        
-        return render_template("playfair.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            cipher_text = display5LetterGroup(cipher_text)
+        return render_template("playfair.html", mode="Encrypt", keyword=keyword, plaintext=text, result=cipher_text, display=display)
     else:
-        return render_template("playfair.html", mode="Encrypt")
+        return render_template("playfair.html", mode="Encrypt", display="option1")
 
 @app.route("/playfair/decrypt", methods=['POST','GET'])
 def playfairDecrypt():
     if request.method == 'POST':
         keyword = request.form['text1']
         text = request.form['text2']
-
         matrix = getKeywordMatrices(keyword)
         decipher_array = decipherBigram(matrix, textToBigramArray(text))
         decipher_text = decipherBigramToText(decipher_array)
-        
-        return render_template("playfair.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=decipher_text)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            decipher_text = display5LetterGroup(decipher_text)
+        return render_template("playfair.html", mode="Decrypt", keyword=keyword, ciphertext=text, result=decipher_text, display=display)
     else:
-        return render_template("playfair.html", mode="Decrypt")
+        return render_template("playfair.html", mode="Decrypt", display="option1")
 
 @app.route("/affine/encrypt", methods=['POST','GET'])
 def affineEncrypt():
@@ -148,10 +169,12 @@ def affineEncrypt():
         m = int(request.form['select1'])
         b = int(request.form['select2'])
         cipher_text = encryptStringAffine(text, m, b)
-        
-        return render_template("affine.html", mode="Encrypt", offset=offset, coprime=coprime, plaintext=text, result=cipher_text, m=m, b=b)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            cipher_text = display5LetterGroup(cipher_text)
+        return render_template("affine.html", mode="Encrypt", offset=offset, coprime=coprime, plaintext=text, result=cipher_text, m=m, b=b, display=display)
     else:
-        return render_template("affine.html", mode="Encrypt", offset=offset, coprime=coprime)
+        return render_template("affine.html", mode="Encrypt", offset=offset, coprime=coprime, display="option1")
 
 @app.route("/affine/decrypt", methods=['POST','GET'])
 def affineDecrypt():
@@ -162,10 +185,12 @@ def affineDecrypt():
         m = int(request.form['select1'])
         b = int(request.form['select2'])
         decipher_text = decryptStringAffine(text, m, b)
-        
-        return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime, ciphertext=text, result=decipher_text, m=m, b=b)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            decipher_text = display5LetterGroup(decipher_text)
+        return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime, ciphertext=text, result=decipher_text, m=m, b=b, display=display)
     else:
-        return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime)
+        return render_template("affine.html", mode="Decrypt", offset=offset, coprime=coprime, display="option1")
 
 @app.route("/hill/encrypt", methods=['POST','GET'])
 def hillEncrypt():
@@ -176,9 +201,12 @@ def hillEncrypt():
         text = request.form['text3']
         matrices= formKeyMatricesFromInput(entries, n)
         cipher_text = encryptHill(matrices, textToArray(text, n), n)
-        return render_template("hill.html", mode="Encrypt", plaintext=text, result=cipher_text, n=n, array=array)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            cipher_text = display5LetterGroup(cipher_text)
+        return render_template("hill.html", mode="Encrypt", plaintext=text, result=cipher_text, n=n, array=array, display=display)
     else:
-        return render_template("hill.html", mode="Encrypt")
+        return render_template("hill.html", mode="Encrypt", display="option1")
 
 @app.route("/hill/decrypt", methods=['POST','GET'])
 def hillDecrypt():
@@ -189,9 +217,12 @@ def hillDecrypt():
         text = request.form['text3']
         matrices= formKeyMatricesFromInput(entries, n)
         decipher_text = decryptHill(matrices, textToArray(text, n), n)
-        return render_template("hill.html", mode="Decrypt", ciphertext=text, result=decipher_text, n=n, array=array)
+        display = request.form['inlineRadio']
+        if(display=="option2"):
+            decipher_text = display5LetterGroup(decipher_text)
+        return render_template("hill.html", mode="Decrypt", ciphertext=text, result=decipher_text, n=n, array=array, display=display)
     else:
-        return render_template("hill.html", mode="Decrypt")
+        return render_template("hill.html", mode="Decrypt", display="option1")
 
 @app.route("/saveresult", methods=['POST'])
 def saveResult():
