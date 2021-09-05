@@ -47,7 +47,7 @@ def vigenere(inText, key, type="ENC"):
   elif type == "DEC":
     outText = ""
     for i in range(len(text)):
-      outText += chr((alphabetToInt(text[i]) - alphabetToInt(key[i % len(key)])) % 26 + 97)
+      outText += chr((alphabetToInt(text[i]) - alphabetToInt(key[i % len(key)])) % 26 + 65)
     return outText
   else:
     return "Type not valid"
@@ -63,7 +63,7 @@ def fullVigenere(inText, key, type="ENC"):
   elif type == "DEC":
     outText = ""
     for i in range(len(text)):
-      outText += chr(fullVigenereTable[alphabetToInt(key[i % len(key)])].index(text[i]) + 97)
+      outText += chr(fullVigenereTable[alphabetToInt(key[i % len(key)])].index(text[i]) + 65)
     return outText
   else:
     return "Type not valid"
@@ -81,7 +81,7 @@ def autoKeyVigenere(inText, key, type="ENC"):
   elif type == "DEC":
     outText = ""
     for i in range(len(text)):
-      outText += chr((alphabetToInt(text[i]) - alphabetToInt(key[i % len(key)])) % 26 + 97)
+      outText += chr((alphabetToInt(text[i]) - alphabetToInt(key[i % len(key)])) % 26 + 65)
       key += outText[-1]
     return outText
   else:
