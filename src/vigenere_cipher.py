@@ -39,6 +39,7 @@ def alphabetToInt(char):
 # Fungsi standard vigenere cypher
 def vigenere(inText, key, type="ENC"):
   text = ''.join(filter(str.isalpha, inText))
+  key = ''.join(filter(str.isalpha, key))
   if type == "ENC":
     outText = ""
     for i in range(len(text)):
@@ -55,6 +56,7 @@ def vigenere(inText, key, type="ENC"):
 # Fungsi full vigenere cypher
 def fullVigenere(inText, key, type="ENC"):
   text = ''.join(filter(str.isalpha, inText))
+  key = ''.join(filter(str.isalpha, key))
   if type == "ENC":
     outText = ""
     for i in range(len(text)):
@@ -71,6 +73,7 @@ def fullVigenere(inText, key, type="ENC"):
 # Fungsi auto key vigenere cypher
 def autoKeyVigenere(inText, key, type="ENC"):
   text = ''.join(filter(str.isalpha, inText))
+  key = ''.join(filter(str.isalpha, key))
 
   if type == "ENC":
     outText = ""
