@@ -1,4 +1,4 @@
-# Tucil-1-Kriptografi
+# Classic Cryptography
 Tugas Kecil 1 IF4020 Kriptografi Program Vigenere Cipher, Playfair Cipher, Affine Cipher, Hill Cipher, Enigma Cipher
 
 ## Requirements
